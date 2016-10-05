@@ -16,7 +16,7 @@ namespace snake
             Console.SetCursorPosition(xOffset, yOffset++);
             WriteText("============================", xOffset, yOffset++);
             yOffset++;
-            WriteText("Нажмите enter, чтобы начать", xOffset + 1, yOffset++);
+            WriteText("НАЖМИ ENTER, ЧТОБЫ НАЧАТЬ", xOffset + 1, yOffset++);
             yOffset++;
             WriteText("============================", xOffset, yOffset++);
             Console.ReadLine();
