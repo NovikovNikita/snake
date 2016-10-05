@@ -12,8 +12,9 @@ namespace snake
         static void Main(string[] args)
         {
             Console.SetBufferSize(80, 25);
-            Console.WriteLine("Нажмите enter, чтобы начать");
-            Console.ReadLine();
+
+            StartGame startGame = new StartGame();
+            Console.ForegroundColor = ConsoleColor.White;
 
             Walls walls = new Walls(80, 25);
             walls.Draw();
@@ -31,8 +32,6 @@ namespace snake
             {
                 if (walls.IsHit(snake) || snake.IsHitTail())
                 {
-                    Console.WriteLine("Вы врезались в стену, вы проиграли!");
-                    Console.ReadLine();
                     break;
                 }
                 if (snake.Eat(food))
@@ -53,11 +52,27 @@ namespace snake
                     snake.HandleKey(key.Key);
                 }
             }
+            WriteGameOver();
+            Console.ReadLine();
         }
 
-        static void Draw(Figure figure)
+        static void WriteGameOver()
         {
-            figure.Draw();
+            int xOffset = 25;
+            int yOffset = 8;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(xOffset, yOffset++);
+            WriteText("============================", xOffset, yOffset++);
+            yOffset++;
+            WriteText("И Г Р А    О К О Н Ч Е Н А", xOffset + 1, yOffset++);
+            yOffset++;
+            WriteText("============================", xOffset, yOffset++);
+        }
+
+        static void WriteText(String text, int xOffset, int yOffset)
+        {
+            Console.SetCursorPosition(xOffset, yOffset);
+            Console.WriteLine(text);
         }
     }
 }
