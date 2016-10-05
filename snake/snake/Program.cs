@@ -12,6 +12,8 @@ namespace snake
         static void Main(string[] args)
         {
             Console.SetBufferSize(80, 25);
+            Console.WriteLine("Нажмите enter, чтобы начать");
+            Console.ReadLine();
 
             //Отрисовка рамочки
             HorrizontalLine upLine = new HorrizontalLine(0, 78, 0, '+');
@@ -28,15 +30,29 @@ namespace snake
             Snake snake = new Snake(p, 4, Direction.RIGHT);
             snake.Draw();
 
+            FoodCreator foodCreator = new FoodCreator(80, 25, '$');
+            Point food = foodCreator.CreateFood();
+            food.Draw();
+
             while (true)
             {
+                if (snake.Eat(food))
+                {
+                    food = foodCreator.CreateFood();
+                    food.Draw();
+                }
+                else
+                {
+                    snake.Move();
+                }
+
+                Thread.Sleep(100);
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey();
                     snake.HandleKey(key.Key);
                 }
-                Thread.Sleep(100);
-                snake.Move();
             }
         }
     }
