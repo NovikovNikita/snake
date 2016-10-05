@@ -15,35 +15,13 @@ namespace snake
             Console.WriteLine("Нажмите enter, чтобы начать");
             Console.ReadLine();
 
-            VerticalLine v1 = new VerticalLine(0, 10, 5, '%');
-            Draw(v1);
+            Walls walls = new Walls(80, 25);
+            walls.Draw();
 
+            //Отрисовка точек
             Point p = new Point(4, 5, '*');
-            Figure fSnake = new Snake(p, 4, Direction.RIGHT);
-            Draw(fSnake);
-            Snake snake = (Snake)fSnake;
-
-            HorrizontalLine h1 = new HorrizontalLine(0, 5, 6, '&');
-
-            List<Figure> figures = new List<Figure>();
-            figures.Add(fSnake);
-            figures.Add(v1);
-            figures.Add(h1);
-
-            //Отрисовка рамочки
-            HorrizontalLine upLine = new HorrizontalLine(0, 78, 0, '+');
-            HorrizontalLine downLine = new HorrizontalLine(0, 78, 24, '+');
-            VerticalLine leftLine = new VerticalLine(0, 24, 0, '+');
-            VerticalLine rightLine = new VerticalLine(0, 24, 78, '+');
-            upLine.Draw();
-            downLine.Draw();
-            leftLine.Draw();
-            rightLine.Draw();
-
-            foreach (var f in figures)
-            {
-                f.Draw();
-            }
+            Snake snake = new Snake(p, 4, Direction.RIGHT);
+            snake.Draw();
 
             FoodCreator foodCreator = new FoodCreator(80, 25, '$');
             Point food = foodCreator.CreateFood();
@@ -51,6 +29,12 @@ namespace snake
 
             while (true)
             {
+                if (walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    Console.WriteLine("Вы врезались в стену, вы проиграли!");
+                    Console.ReadLine();
+                    break;
+                }
                 if (snake.Eat(food))
                 {
                     food = foodCreator.CreateFood();
